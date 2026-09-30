@@ -54,15 +54,15 @@
   <!-- brand -->
   <text x="600" y="150" text-anchor="middle" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="26" font-weight="700" fill="#A78BFA" letter-spacing="8">GENTLE VANGUARD ACADEMY</text>
   <!-- type badge -->
-  <rect x="430" y="210" width="340" height="52" rx="26" fill="#22D3EE" opacity="0.14"/>
-  <text x="600" y="244" text-anchor="middle" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="20" font-weight="700" fill="#22D3EE" letter-spacing="3">MICRO EBOOK</text>
+  <rect x="430" y="210" width="340" height="52" rx="26" fill="#86EFAC" opacity="0.14"/>
+  <text x="600" y="244" text-anchor="middle" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="20" font-weight="700" fill="#86EFAC" letter-spacing="3">CURSO INICIAL</text>
   <!-- regla gradiente -->
   <rect x="430" y="560" width="340" height="4" rx="2" fill="url(#gvGrad)"/>
   <!-- título -->
-  <text x="600" y="700" text-anchor="middle" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="64" font-weight="800" fill="#ffffff">IA en tu día a día</text>
+  <text x="600" y="700" text-anchor="middle" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="64" font-weight="800" fill="#ffffff">Copywriter con IA</text>
   <!-- subtítulo -->
-  <text x="600" y="852" text-anchor="middle" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="26" font-weight="400" fill="#8b95a8">Aprendé, experimentá y empezá a usar inteligencia artificial con criterio</text>
+  <text x="600" y="852" text-anchor="middle" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="26" font-weight="400" fill="#8b95a8">Curso práctico de copywriting con Inteligencia Artificial: fundamentos que la IA no reemplaza, research y voz de marca, landings que convierten, email y newsletters, ads y redes, copy de producto y propuestas, tu sistema de prompts maestros, y casos reales con portafolio</text>
   <!-- meta -->
-  <text x="600" y="1450" text-anchor="middle" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="22" font-weight="500" fill="#8b95a8" letter-spacing="2">26 PÁGINAS</text>
-    <text x="600" y="1484" text-anchor="middle" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="22" font-weight="500" fill="#8b95a8" letter-spacing="2">Personas que quieren empezar a usar IA en su vida cotidiana</text>
+  <text x="600" y="1450" text-anchor="middle" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="22" font-weight="500" fill="#8b95a8" letter-spacing="2">~9 HORAS</text>
+    <text x="600" y="1484" text-anchor="middle" font-family="'Space Grotesk','Segoe UI',sans-serif" font-size="22" font-weight="500" fill="#8b95a8" letter-spacing="2">COPYWRITING · REDACCION · IA</text>
 </svg>
