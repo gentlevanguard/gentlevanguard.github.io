@@ -18,17 +18,17 @@
     const more=document.createElement('button'),less=document.createElement('button');
     for(const button of [more,less]){button.type='button';button.className='btn btn-ghost';button.setAttribute('aria-controls',grid.id);buttons.append(button);}
     less.textContent='Ver menos';controls.append(status,buttons);grid.after(controls);
-    const state={grid,cards,status,more,less,rows:2,controls};grids.push(state);
-    more.addEventListener('click',()=>{state.rows+=2;render(state);});
+    const state={grid,cards,status,more,less,extraRows:0,controls};grids.push(state);
+    more.addEventListener('click',()=>{state.extraRows+=2;render(state);});
     less.addEventListener('click',()=>{
-      state.rows=2;render(state);
+      state.extraRows=0;render(state);
       const section=grid.closest('section');section.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
       section.querySelector('.section-title').setAttribute('tabindex','-1');section.querySelector('.section-title').focus({preventScroll:true});
     });
   });
   function render(state){
     const size=columns(),initial=size===1?3:size*2;
-    const limit=filtering?Infinity:(state.rows===2?initial:size*state.rows);
+    const limit=filtering?Infinity:initial+size*state.extraRows;
     const matching=state.cards.filter(card=>!card.classList.contains('card-hidden'));
     let seen=0;
     state.cards.forEach(card=>{
