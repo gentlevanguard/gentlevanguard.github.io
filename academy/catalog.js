@@ -12,40 +12,47 @@
     const cards=Array.from(grid.children).filter(el=>el.classList.contains('card'));
     if(!cards.length)return;
     grid.id=grid.id||'catalog-grid-'+index;
-    const controls=document.createElement('div');controls.className='catalog-navigation';
+    const controls=document.createElement('nav');controls.className='catalog-navigation';controls.setAttribute('aria-label','Páginas de '+grid.closest('section').querySelector('h2').textContent);
     const status=document.createElement('p');status.setAttribute('role','status');status.setAttribute('aria-live','polite');
     const buttons=document.createElement('div');buttons.className='catalog-buttons';
-    const more=document.createElement('button'),less=document.createElement('button');
-    for(const button of [more,less]){button.type='button';button.className='btn btn-ghost';button.setAttribute('aria-controls',grid.id);buttons.append(button);}
-    less.textContent='Ver menos';controls.append(status,buttons);grid.after(controls);
-    const state={grid,cards,status,more,less,extraRows:0,controls};grids.push(state);
-    more.addEventListener('click',()=>{state.extraRows+=2;render(state);});
-    less.addEventListener('click',()=>{
-      state.extraRows=0;render(state);
-      const section=grid.closest('section');section.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
-      section.querySelector('.section-title').setAttribute('tabindex','-1');section.querySelector('.section-title').focus({preventScroll:true});
-    });
+    const prev=document.createElement('button'),next=document.createElement('button'),pages=document.createElement('div');pages.className='catalog-pages';
+    for(const button of [prev,next]){button.type='button';button.className='btn btn-ghost';button.setAttribute('aria-controls',grid.id);}
+    prev.classList.add('catalog-prev');next.classList.add('catalog-next');prev.textContent='Anterior';next.textContent='Siguiente';
+    buttons.append(prev,pages,next);controls.append(status,buttons);grid.after(controls);
+    const state={grid,cards,status,prev,next,pages,page:1,controls};grids.push(state);
+    prev.addEventListener('click',()=>navigate(state,state.page-1));next.addEventListener('click',()=>navigate(state,state.page+1));
   });
+  function navigate(state,page){
+    state.page=page;render(state);
+    const section=state.grid.closest('section'),title=section.querySelector('.section-title');
+    title.setAttribute('tabindex','-1');title.focus({preventScroll:true});
+    section.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+  }
   function render(state){
-    const size=columns(),initial=size===1?3:size*2;
-    const limit=filtering?Infinity:initial+size*state.extraRows;
+    const size=columns(),limit=size===1?3:size*2;
     const matching=state.cards.filter(card=>!card.classList.contains('card-hidden'));
+    const count=Math.max(1,Math.ceil(matching.length/limit));state.page=Math.min(count,Math.max(1,state.page));
+    const start=(state.page-1)*limit;
     let seen=0;
     state.cards.forEach(card=>{
       const match=!card.classList.contains('card-hidden');
-      card.classList.toggle('card-collapsed',match&&seen>=limit);
+      card.classList.toggle('card-collapsed',match&&(seen<start||seen>=start+limit));
       if(match)seen++;
     });
-    const shown=Math.min(matching.length,limit),remaining=matching.length-shown;
-    state.status.textContent='Mostrando '+shown+' de '+matching.length+' materiales';
-    state.more.hidden=filtering||remaining<=0;
-    state.less.hidden=filtering||shown<=initial;
-    state.more.textContent='Ver '+Math.min(size*2,remaining)+' más';
-    state.more.setAttribute('aria-expanded',String(shown>initial));
+    state.status.textContent='Página '+state.page+' de '+count+' · '+(matching.length?start+1:0)+'–'+Math.min(start+limit,matching.length)+' de '+matching.length+' materiales';
+    state.prev.disabled=state.page===1;state.next.disabled=state.page===count;
+    state.pages.replaceChildren();let previous=0;
+    for(let number=1;number<=count;number++){
+      if(number!==1&&number!==count&&Math.abs(number-state.page)>1)continue;
+      if(previous&&number-previous>1){const gap=document.createElement('span');gap.textContent='…';gap.setAttribute('aria-hidden','true');state.pages.append(gap);}
+      const button=document.createElement('button');button.type='button';button.className='catalog-page';button.dataset.page=String(number);button.textContent=String(number);button.setAttribute('aria-label','Página '+number);button.setAttribute('aria-controls',state.grid.id);
+      if(number===state.page)button.setAttribute('aria-current','page');
+      button.addEventListener('click',()=>navigate(state,number));state.pages.append(button);previous=number;
+    }
     state.controls.hidden=matching.length===0;
   }
   function refresh(){grids.forEach(render);empty.hidden=!filtering||grids.some(state=>state.grid.closest('section').id!=='sec-destacados'&&state.cards.some(card=>!card.classList.contains('card-hidden')));}
-  document.addEventListener('gv:catalog-filter',event=>{filtering=!!event.detail.active;refresh();});
+  document.addEventListener('gv:catalog-filter',event=>{filtering=!!event.detail.active;grids.forEach(state=>state.page=1);refresh();});
   let resizing;
   addEventListener('resize',()=>{clearTimeout(resizing);resizing=setTimeout(refresh,120);});
   document.querySelectorAll('.tabbar .tab').forEach(tab=>{
@@ -56,6 +63,14 @@
     }));
   });
   refresh();
+
+  document.addEventListener('click',event=>{
+    const link=event.target.closest('[data-catalog-section]');if(!link)return;
+    const section=document.getElementById(link.dataset.catalogSection),tab=document.querySelector('.tabbar [data-sec="'+link.dataset.catalogSection+'"]');
+    if(!section||!tab)return;
+    event.preventDefault();document.querySelector('#filter-clear').click();tab.click();
+    queueMicrotask(()=>section.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'}));
+  });
 
   if(typeof HTMLDialogElement==='undefined'||!HTMLDialogElement.prototype.showModal)return;
   const dialog=document.createElement('dialog');dialog.className='product-dialog';dialog.setAttribute('aria-labelledby','product-preview-title');
