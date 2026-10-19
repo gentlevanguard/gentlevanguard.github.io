@@ -50,6 +50,7 @@
       button.addEventListener('click',()=>navigate(state,number));state.pages.append(button);previous=number;
     }
     state.controls.hidden=matching.length===0;
+    document.dispatchEvent(new CustomEvent('gv:catalog-page',{detail:{grid:state.grid}}));
   }
   function refresh(){grids.forEach(render);empty.hidden=!filtering||grids.some(state=>state.grid.closest('section').classList.contains('active')&&state.cards.some(card=>!card.classList.contains('card-hidden')));}
   document.addEventListener('gv:catalog-filter',event=>{filtering=!!event.detail.active;grids.forEach(state=>state.page=1);refresh();});
