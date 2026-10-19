@@ -1485,7 +1485,8 @@ footer a { color: var(--cyan); }
 // email activa el envío por mailto desde el formulario.
 // Métricas: endpoint de captura (Apps Script → Google Sheet). Vacío = sin
 // tracking (cero tráfico externo). Ver docs/marketing/LANDING-PLAYBOOK.md.
-var TRACK_URL = "https://script.google.com/macros/s/AKfycbyww0v5ZRBEFDKapNMALUfxpa6e20V2CD-dN6PV8yPjU8zrkV7YpQybnreJ77k5_urLsA/exec";
+var TRACK_URL = "";
+var LOCAL_CRM_ENABLED = false;
 var CONTACT = {"whatsappUrl":"https://wa.me/message/YHVWXB5AZR4EJ1","whatsappPhone":"542645452221","email":"gentlevanguard@gmail.com"};
 var interest = null;
 function setInterest(value) { interest = value; document.getElementById("interest-text").textContent = "Interés: " + value; document.getElementById("interest-chip").style.display = "flex"; }
@@ -1682,7 +1683,7 @@ document.getElementById('lead-form').addEventListener('submit', async function(e
   var audience = document.getElementById('lead-audience').value;
   if (!name || !email) return;
   var lead = { name: name, email: email, audience: audience, interest: interest, ts: Date.now() };
-  track('form_lead', { name: name, email: email, audience: audience, interest: interest || null });
+  track('form_lead', { audience: audience, interest: interest || null });
   var sent = false;
   try {
     // Best-effort: si el stack corre en esta máquina, el lead entra directo al CRM
@@ -1814,8 +1815,9 @@ function loadMercadoPagoSDK() {
 }
 
 function postLead(lead) {
-  track('form_lead', { name: lead.name, email: lead.email, audience: lead.audience, interest: lead.interest || null, origin: lead.origin || 'form' });
-  // Directo al CRM local (:4792) — merge idempotente por email, CORS abierto.
+  track('form_lead', { audience: lead.audience, interest: lead.interest || null, origin: lead.origin || 'form' });
+  // Internal integration is opt-in and never targets a public visitor's machine.
+  if (!LOCAL_CRM_ENABLED || !['127.0.0.1', 'localhost', '[::1]'].includes(location.hostname)) return;
   fetch('http://127.0.0.1:4792/api/crm/contacts/from-leads', {
     method: 'POST', headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ leads: [lead] })
