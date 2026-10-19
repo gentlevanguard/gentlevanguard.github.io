@@ -2,7 +2,7 @@
 (()=>{
   const root=document.documentElement,theme=document.querySelector('#academy-theme');
   const read=key=>{try{return localStorage.getItem(key);}catch{return null;}};
-  const apply=value=>{root.dataset.theme=value==='light'?'light':'dark';theme.setAttribute('aria-label',root.dataset.theme==='dark'?'Activar tema claro':'Activar tema oscuro');theme.setAttribute('aria-pressed',String(root.dataset.theme==='light'));};
+  const apply=value=>{root.dataset.theme=value==='light'?'light':'dark';theme.setAttribute('aria-label',root.dataset.theme==='dark'?'Activar tema claro':'Activar tema oscuro');theme.title=theme.getAttribute('aria-label');theme.setAttribute('aria-pressed',String(root.dataset.theme==='light'));theme.querySelector('svg').innerHTML=root.dataset.theme==='light'?'<path d="M20.8 13a9 9 0 0 1-9.8-9.8A9 9 0 1 0 20.8 13Z"/>':'<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/>';};
   apply(read('gv-cc-theme'));
   theme.addEventListener('click',()=>{apply(root.dataset.theme==='dark'?'light':'dark');try{localStorage.setItem('gv-cc-theme',root.dataset.theme);}catch{}});
   addEventListener('storage',event=>{if(event.key==='gv-cc-theme')apply(event.newValue);});
