@@ -114,7 +114,7 @@ h1,h2,h3 { font-weight:700!important; }
 .knowledge-flow-b { stroke:var(--gv-purple); stroke-dasharray:22 1220; animation-duration:calc(var(--gv-duration-epic)*21); animation-direction:reverse; }
 [data-academy-motion="playing"] .knowledge-flow { animation-play-state:running; }
 @keyframes academy-knowledge { to { stroke-dashoffset:-2800; } }
-#academy-motion { display:inline-flex; align-items:center; gap:8px; margin-top:12px; min-height:44px; border:0; background:transparent; color:var(--gv-text-secondary); font-size:12px; padding:0; cursor:pointer; text-decoration:underline; text-underline-offset:5px; }
+#academy-motion { display:inline-flex; align-items:center; gap:8px; margin-top:12px; min-height:44px; border:0; background:transparent; color:var(--gv-text-secondary); font-size:12px; padding:0; cursor:pointer; }
 #academy-motion[hidden] { display:none; }
 #academy-motion::before { content:""; width:6px; height:6px; border-radius:50%; background:var(--gv-cyan); }
 #academy-motion[aria-pressed="true"]::before { background:var(--gv-text-secondary); }
