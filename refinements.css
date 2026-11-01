@@ -78,7 +78,7 @@
 .founder-card{display:grid;grid-template-columns:220px minmax(0,1fr);gap:36px;padding:36px;border:1px solid var(--gv-border);border-radius:var(--gv-radius-lg);background:var(--gv-bg)}
 .founder-photo{margin:0;min-height:240px;border-radius:var(--gv-radius-lg);overflow:hidden;display:grid;place-items:center;background:var(--gv-gradient-subtle);align-self:start}
 .founder-avatar{display:grid;place-items:center;width:132px;height:132px;border-radius:50%;background:var(--gv-gradient);color:var(--gv-text-inverse);font:700 44px var(--gv-font-display);letter-spacing:2px}
-.founder-img{width:100%;height:auto;display:block}
+.founder-img{width:100%;height:auto;display:block;border-radius:var(--gv-radius-lg)}
 .founder-bio h3{margin:0 0 4px;font-size:24px;font-family:var(--gv-font-display)}
 .founder-role{color:var(--gv-accent-text);font-size:13px;font-weight:600;margin:0 0 14px}
 .founder-facts{list-style:none;margin:18px 0;padding:0;display:grid;gap:10px}
