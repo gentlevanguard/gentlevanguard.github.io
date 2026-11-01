@@ -1,11 +1,11 @@
 {
-  "generated": "2026-11-01T03:35:11.855Z",
+  "generated": "2026-11-01T04:21:16.344Z",
   "counts": {
-    "courses": 28,
+    "courses": 29,
     "ebooks": 33,
     "ebooksPremium": 18,
     "toolkits": 24,
-    "products": 85
+    "products": 86
   },
   "pricing": {
     "ebook-micro": {
@@ -158,6 +158,16 @@
         "hours": 14,
         "categories": [
           "software-programacion"
+        ]
+      },
+      {
+        "id": "gobernanza-ia",
+        "title": "Gobernanza y Cumplimiento de IA — EU AI Act para empresas",
+        "level": "intermedio",
+        "hours": 14,
+        "categories": [
+          "negocios-productividad",
+          "ia-aplicada"
         ]
       },
       {
