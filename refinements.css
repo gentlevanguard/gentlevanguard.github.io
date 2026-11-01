@@ -98,3 +98,14 @@
 @media (prefers-reduced-motion: no-preference){
   .gv-scrub{opacity:var(--sc-o,1);filter:blur(var(--sc-b,0px));transform:translateY(var(--sc-t,0px))}
 }
+
+/* === Contacto compacto (2026-11-01): menos scroll, estética más ligera === */
+.section#contacto, .contact { padding-block:48px 40px; }
+.contact-grid { gap:48px; align-items:start; }
+.contact form { padding:24px; }
+.contact form label { margin-bottom:6px; }
+.contact form input, .contact form textarea, .contact form select { padding:10px 12px; margin-bottom:14px; }
+.contact form .form-note { margin:0 0 16px; }
+.contact-offer { padding-block:8px 32px; }
+.contact-offer p { margin:0 0 16px; }
+@media(max-width:640px){ .section#contacto, .contact { padding-block:36px 28px; } .contact form { padding:20px; } }
