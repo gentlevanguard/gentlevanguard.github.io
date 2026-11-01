@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-01T02:56:37.676Z",
+  "generated": "2026-11-01T03:35:11.855Z",
   "counts": {
     "courses": 28,
     "ebooks": 33,
@@ -143,7 +143,7 @@
       },
       {
         "id": "gentle-vanguard",
-        "title": "Gentle-Vanguard",
+        "title": "GentleVanguard",
         "level": "intermedio",
         "hours": 12,
         "categories": [
@@ -625,10 +625,8 @@
       {
         "id": "ai-engineering-toolkit",
         "title": "AI Engineering Toolkit",
-        "resourceCounts": {
-          "undefined": 6
-        },
-        "description": "Kit premium que reune todo: curso AI Engineering (8 modulos · 48 lecciones · 24h) + ebook de patrones de produccion (~90 pags) + checklists de madurez y operacion + plantillas de prompts con contrato + biblioteca de prompts semilla + casos practicos de implementacion. Todo lo necesario para llevar un sistema de IA a produccion siguiendo el patron stack de mechanical de Gentle Vanguard.",
+        "resourceCounts": {},
+        "description": "Kit premium que reune todo: curso AI Engineering (8 modulos · 48 lecciones · 24h) + ebook de patrones de produccion (~90 pags) + checklists de madurez y operacion + plantillas de prompts con contrato + biblioteca de prompts semilla + casos practicos de implementacion. Todo lo necesario para llevar un sistema de IA a produccion siguiendo el patron stack de mechanical de GentleVanguard.",
         "includes": [
           "curso",
           "ebook",
@@ -648,9 +646,7 @@
       {
         "id": "ciberseguridad-toolkit",
         "title": "Toolkit de Ciberseguridad",
-        "resourceCounts": {
-          "undefined": 6
-        },
+        "resourceCounts": {},
         "description": "El toolkit definitivo de ciberseguridad: el curso 'Ciberseguridad — De persona a empresa' (8 tracks · 48 lecciones · 12h) + el 'Manual Práctico de Ciberseguridad' (120 págs premium) + checklists de auditoría (persona, PyME, Windows, macOS, Linux, mobile) + plantillas de respuesta a incidentes (ransomware, phishing, breach) + emails de comunicación a usuarios y reguladores + scripts de hardening (Windows, macOS, Linux, browser) + casos prácticos reales por industria. Aplicable desde el primer día: descargás, ejecutás, mejorás.",
         "includes": [
           "curso",
@@ -701,10 +697,8 @@
       {
         "id": "ia-ciberseguridad-toolkit",
         "title": "Toolkit de IA aplicada a Ciberseguridad",
-        "resourceCounts": {
-          "undefined": 6
-        },
-        "description": "El toolkit definitivo de IA aplicada a ciberseguridad: el curso 'IA aplicada a Ciberseguridad — Defender y operar con IA' (8 tracks · 48 lecciones · 14h) + el 'Manual Práctico de IA aplicada a Ciberseguridad' (120 págs premium) + checklists de governance AI (alto riesgo EU AI Act, sistemas AI LLM, agentes, datos) + plantillas de respuesta a incidentes AI (prompt injection, jailbreak, exfiltration, model drift) + emails de comunicación a usuarios y reguladores + casos prácticos reales (BEC con deepfake, RAG poisoning, model theft, red team AI). Caso de estudio del stack de Gentle Vanguard (prompt-injection-guard, policy-engine fail-closed, MCP security gateway, ADRs 0027/0028/0029, OWASP agentic top10).",
+        "resourceCounts": {},
+        "description": "El toolkit definitivo de IA aplicada a ciberseguridad: el curso 'IA aplicada a Ciberseguridad — Defender y operar con IA' (8 tracks · 48 lecciones · 14h) + el 'Manual Práctico de IA aplicada a Ciberseguridad' (120 págs premium) + checklists de governance AI (alto riesgo EU AI Act, sistemas AI LLM, agentes, datos) + plantillas de respuesta a incidentes AI (prompt injection, jailbreak, exfiltration, model drift) + emails de comunicación a usuarios y reguladores + casos prácticos reales (BEC con deepfake, RAG poisoning, model theft, red team AI). Caso de estudio del stack de GentleVanguard (prompt-injection-guard, policy-engine fail-closed, MCP security gateway, ADRs 0027/0028/0029, OWASP agentic top10).",
         "includes": [
           "curso",
           "ebook",

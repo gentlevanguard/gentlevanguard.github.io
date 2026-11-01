@@ -16,6 +16,7 @@
     motion.disabled = reduced.matches;
     if (root.dataset.motion === 'playing' && !document.querySelector('.hero').classList.contains('motion-outside')) svg?.unpauseAnimations?.();
     else svg?.pauseAnimations?.();
+    if (root.dataset.motion !== 'playing') scrubReset();
   }
   motion.addEventListener('click', () => { paused = !paused; updateMotion(); });
   document.addEventListener('visibilitychange', updateMotion);
@@ -40,6 +41,7 @@
       panel.hidden = !selected;
       if (selected && !reduced.matches) panel.animate([{opacity:.4,transform:'translateY(8px)'},{opacity:1,transform:'translateY(0)'}], {duration:280,easing:'cubic-bezier(0.19, 1, 0.22, 1)'});
     });
+    updateScrub();
   }
   tabs.forEach((tab, index) => {
     tab.addEventListener('click', () => selectService(tab.dataset.service));
@@ -79,7 +81,8 @@
     requestAnimationFrame(() => {
       const scrollable = root.scrollHeight - window.innerHeight;
       root.style.setProperty('--page-progress', String(scrollable > 0 ? window.scrollY / scrollable : 0));
-      backTop.hidden = window.scrollY < window.innerHeight * .6;
+      backTop.hidden = window.scrollY < window.innerHeight * .45;
+      updateScrub();
       scheduled = false;
     });
   }
@@ -161,4 +164,93 @@
       if (next !== undefined) { event.preventDefault(); entries[next].focus(); selectEntry(entries[next].dataset.entry); }
     });
   });
+
+  // === Difuminado continuo ligado al scroll (estilo E): "lente" ===
+  // Nitido al centro, blur + desvanecido hacia los bordes, en ambos sentidos.
+  // Solo bloques de contenido: los fondos y arte de cada seccion no participan.
+  const scrubBlocksGroups = [
+    '.section-heading', '.support-line',
+    '.service-row > div',
+    '.service-aside > span, .service-aside > p',
+    '.connections-layout > div',
+    '.projects .spotlight-card', '.founder-bio',
+    '.about-grid > h2, .about-grid > div',
+    '.faq details', '.contact-offer',
+    '.contact-grid > div', '.contact-grid form'
+  ];
+  // var (no const/let): updateMotion() corre al inicio del IIFE y puede invocar
+  // scrubReset()/updateScrub() antes de este punto de asignacion.
+  var scrubBlocks = [];
+  if (!reduced.matches) {
+    scrubBlocks = scrubBlocksGroups.flatMap(sel => [...document.querySelectorAll(sel)]);
+    scrubBlocks.forEach(el => el.classList.add('gv-scrub'));
+  }
+  function scrubSet(el, o, b, t) {
+    el.style.setProperty('--sc-o', String(o));
+    el.style.setProperty('--sc-b', b.toFixed(2) + 'px');
+    el.style.setProperty('--sc-t', t.toFixed(1) + 'px');
+  }
+  function scrubReset() {
+    if (!scrubBlocks) return;
+    scrubBlocks.forEach(el => { el.style.removeProperty('--sc-o'); el.style.removeProperty('--sc-b'); el.style.removeProperty('--sc-t'); });
+  }
+  function updateScrub() {
+    if (!scrubBlocks || !scrubBlocks.length) return;
+    if (root.dataset.motion !== 'playing') { scrubReset(); return; }
+    const h = window.innerHeight, band = h * 0.14, fade = h * 0.62;
+    for (const el of scrubBlocks) {
+      const rect = el.getBoundingClientRect();
+      if (!rect.height) { scrubSet(el, 1, 0, 0); continue; }        // paneles ocultos: crisp
+      if (rect.bottom < -140) { scrubSet(el, 0.04, 10, -28); continue; }  // salio por arriba
+      if (rect.top > h + 140) { scrubSet(el, 0.04, 10, 28); continue; }   // aun no entra
+      const center = rect.top + rect.height / 2;
+      const dist = Math.abs(center - h / 2);
+      let p = dist <= band ? 1 : Math.max(0, 1 - (dist - band) / fade);
+      p = 1 - Math.pow(1 - p, 3);
+      const side = center < h / 2 ? -1 : 1;
+      scrubSet(el, 0.05 + 0.95 * p, (1 - p) * 9, side * (1 - p) * 26);
+    }
+  }
+  updateScrub();
+
+  // === Carrusel automatico (5 s): tabs de servicios y puntos de entrada del diagrama ===
+  // Mientras la seccion este a la vista y nadie la controle, avanza solo; con
+  // un click/focus el usuario toma el mando y el carrusel se detiene.
+  const isBot = Boolean(navigator.webdriver);
+  if (!reduced.matches && !isBot) {
+    const serviceOrder = ['software','automation','ai'];
+    const opOrder = ['sales','tasks','data'];
+    let svcIndex = Math.max(0, serviceOrder.indexOf(active));
+    const svcAuto = { stopped: false, visible: false };
+    const opsAuto = { stopped: false, visible: false };
+    const autoObserver = new IntersectionObserver(changes => {
+      changes.forEach(change => {
+        if (change.target.classList.contains('service-explorer')) svcAuto.visible = change.intersectionRatio >= .4;
+        else opsAuto.visible = change.intersectionRatio >= .4;
+      });
+    }, { threshold: [0, .4, .75] });
+    const svcZone = document.querySelector('.service-explorer');
+    const opZone = operation;
+    if (svcZone) autoObserver.observe(svcZone);
+    if (opZone) autoObserver.observe(opZone);
+    document.addEventListener('click', event => {
+      if (event.target.closest('.service-tab')) svcAuto.stopped = true;
+      if (event.target.closest('.op-input')) opsAuto.stopped = true;
+    }, true);
+    document.addEventListener('focusin', event => {
+      if (event.target.closest('.service-tab')) svcAuto.stopped = true;
+      if (event.target.closest('.op-input')) opsAuto.stopped = true;
+    }, true);
+    setInterval(() => {
+      if (root.dataset.motion !== 'playing') return;
+      if (!svcAuto.stopped && svcAuto.visible) {
+        svcIndex = (svcIndex + 1) % serviceOrder.length;
+        if (serviceOrder[svcIndex] !== active) selectService(serviceOrder[svcIndex]);
+      }
+      if (!opsAuto.stopped && opsAuto.visible) {
+        const next = opOrder[(opOrder.indexOf(operation.dataset.entry) + 1) % opOrder.length];
+        selectEntry(next);
+      }
+    }, 5000);
+  }
 })();
