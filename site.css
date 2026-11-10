@@ -13,3 +13,6 @@ html{scroll-behavior:smooth;scroll-padding-top:96px}body{margin:0;line-height:1.
 @media(max-width:640px){.hero-art{mask-image:linear-gradient(to bottom,transparent,black 25%,black 90%,transparent)}}
 [data-theme=light] .text-link:hover{color:var(--gv-purple-deep)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero-art img,.hero-copy h1,.service-diagram .path-flow,.flow-lines i:after{animation:none!important}.hero-copy h1{clip-path:none}.steps li:after{transition:none}.hero-signature{display:none}}
+
+/* Sección "sistema": etiqueta de rol por pieza (prueba / fábrica / canal). */
+.sys-tag{display:inline-block;margin:0 0 8px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gv-cyan-soft);font-weight:600}
