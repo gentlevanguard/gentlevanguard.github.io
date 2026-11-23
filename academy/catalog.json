@@ -1,5 +1,5 @@
 {
-  "generated": "2026-11-21T21:56:48.830Z",
+  "generated": "2026-11-21T21:58:42.000Z",
   "counts": {
     "courses": 30,
     "ebooks": 33,
@@ -65,7 +65,7 @@
         "id": "ai-engineering",
         "title": "AI Engineering — Sistemas de IA de producción",
         "level": "developer",
-        "hours": 11,
+        "hours": 14,
         "categories": [
           "ia-aplicada",
           "infraestructura-redes-ciberseguridad"
@@ -155,7 +155,7 @@
         "id": "gentle-vanguard",
         "title": "GentleVanguard",
         "level": "intermedio",
-        "hours": 12,
+        "hours": 19,
         "categories": [
           "software-programacion",
           "ia-aplicada"
